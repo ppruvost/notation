@@ -2,19 +2,68 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Grille de compétences</title>
+<title>Grille d’évaluation des compétences</title>
 
 <style>
-body { font-family: Arial, sans-serif; margin: 20px; }
-table { border-collapse: collapse; width: 100%; }
-th, td { border: 1px solid #000; padding: 6px; text-align: center; vertical-align: middle; }
-th { background: #f2f2f2; }
-.comp { font-weight: bold; background: #e6e6e6; }
-.cap { text-align: left; }
-.result { font-weight: bold; margin-top: 15px; }
-button { margin-top: 15px; padding: 10px; }
-</style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
 
+h2 {
+    margin-bottom: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background: #f2f2f2;
+}
+
+.comp {
+    background: #e6e6e6;
+    font-weight: bold;
+    width: 180px;
+}
+
+.cap {
+    text-align: left;
+    width: 420px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+select {
+    width: 80px;
+}
+
+.result-line {
+    font-weight: bold;
+    background: #fafafa;
+}
+
+#final {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.8;
+}
+</style>
 </head>
 
 <body>
@@ -22,20 +71,20 @@ button { margin-top: 15px; padding: 10px; }
 <h2>Grille d’évaluation des compétences</h2>
 
 <table>
-<thead>
-<tr>
-<th>Compétences</th>
-<th>Capacités</th>
-<th>Questions</th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>Validation</th>
-<th>Aide chiffrée</th>
-</tr>
-</thead>
+    <thead>
+        <tr>
+            <th>Compétences</th>
+            <th>Capacités</th>
+            <th>Questions</th>
+            <th>0</th>
+            <th>1</th>
+            <th>2</th>
+            <th>Validation</th>
+            <th>Aide chiffrée</th>
+        </tr>
+    </thead>
 
-<tbody id="tableBody"></tbody>
+    <tbody id="tableBody"></tbody>
 </table>
 
 <button onclick="calculer()">Calculer les notes</button>
@@ -44,47 +93,85 @@ button { margin-top: 15px; padding: 10px; }
 
 <script>
 
+/*
+OBJECTIF :
+
+- 5 compétences
+- 5 lignes par compétence
+- Questions : 1A à 8A + 1B à 8B
+- aucun doublon autorisé
+
+NOTATION :
+
+Chaque compétence :
+→ note entière sur 4
+
+Toutes les compétences ont
+exactement le même poids
+
+Total :
+→ entier sur 20
+
+Puis conversion :
+→ entier sur 10
+*/
+
+const questionOptions = [
+    "",
+    "1A","2A","3A","4A","5A","6A","7A","8A",
+    "1B","2B","3B","4B","5B","6B","7B","8B"
+];
+
 const data = [
 {
-comp: "S’approprier",
-items: [
-["Rechercher, extraire et organiser l’information.", "1A"],
-["Traduire des informations, des codages.", "1B"]
-]
+    comp: "S’approprier",
+    items: [
+        "Rechercher, extraire et organiser l’information.",
+        "Traduire des informations, des codages.",
+        "",
+        "",
+        ""
+    ]
 },
 {
-comp: "Analyser / Raisonner",
-items: [
-["Émettre des conjectures, formuler des hypothèses.", "4A"],
-["Proposer, choisir une méthode de résolution ou un protocole.", "7A"],
-["Élaborer un algorithme.", "4B"],
-["", "7B"]
-]
+    comp: "Analyser / Raisonner",
+    items: [
+        "Émettre des conjectures, formuler des hypothèses.",
+        "Proposer, choisir une méthode de résolution.",
+        "Élaborer un algorithme.",
+        "",
+        ""
+    ]
 },
 {
-comp: "Réaliser",
-items: [
-["Mettre en œuvre un protocole en respectant les règles de sécurité.", "2A"],
-["Utiliser un modèle, représenter, calculer.", "3A"],
-["Expérimenter, faire une simulation.", "6A"],
-["", "3B"],
-["", "5B"]
-]
+    comp: "Réaliser",
+    items: [
+        "Mettre en œuvre une méthode ou un protocole.",
+        "Utiliser un modèle, représenter, calculer.",
+        "Expérimenter, faire une simulation.",
+        "",
+        ""
+    ]
 },
 {
-comp: "Valider",
-items: [
-["Exploiter et interpréter des résultats.", "5A"],
-["Contrôler la vraisemblance d’une mesure.", "2B"],
-["Valider une hypothèse, conclure.", "6B"]
-]
+    comp: "Valider",
+    items: [
+        "Exploiter et interpréter des résultats.",
+        "Contrôler la vraisemblance d’une mesure.",
+        "Valider un modèle ou une hypothèse.",
+        "",
+        ""
+    ]
 },
 {
-comp: "Communiquer",
-items: [
-["Rendre compte d’un résultat à l’oral ou à l’écrit.", "8A"],
-["Expliquer une démarche.", "8B"]
-]
+    comp: "Communiquer",
+    items: [
+        "Rendre compte d’un résultat.",
+        "Expliquer une démarche.",
+        "",
+        "",
+        ""
+    ]
 }
 ];
 
@@ -92,95 +179,227 @@ const body = document.getElementById("tableBody");
 
 data.forEach((bloc, ci) => {
 
-let first = true;
+    let first = true;
 
-bloc.items.forEach((it, i) => {
+    bloc.items.forEach((capacite, i) => {
 
-let tr = document.createElement("tr");
+        let tr = document.createElement("tr");
 
-if (first) {
-tr.innerHTML += `<td class="comp" rowspan="${bloc.items.length}">${bloc.comp}</td>`;
-first = false;
+        if (first) {
+            tr.innerHTML += `
+                <td class="comp" rowspan="5">
+                    ${bloc.comp}
+                </td>
+            `;
+            first = false;
+        }
+
+        tr.innerHTML += `
+            <td class="cap">${capacite}</td>
+
+            <td>
+                <select id="q-${ci}-${i}" onchange="updateQuestionLists()">
+                    ${questionOptions.map(q =>
+                        `<option value="${q}">${q}</option>`
+                    ).join("")}
+                </select>
+            </td>
+
+            <td>
+                <input type="radio"
+                       name="note-${ci}-${i}"
+                       value="0">
+            </td>
+
+            <td>
+                <input type="radio"
+                       name="note-${ci}-${i}"
+                       value="1">
+            </td>
+
+            <td>
+                <input type="radio"
+                       name="note-${ci}-${i}"
+                       value="2"
+                       checked>
+            </td>
+
+            <td>
+                <input type="checkbox"
+                       id="val-${ci}-${i}"
+                       checked>
+            </td>
+
+            <td id="calc-${ci}-${i}">
+                -
+            </td>
+        `;
+
+        body.appendChild(tr);
+    });
+
+    let trRes = document.createElement("tr");
+    trRes.className = "result-line";
+
+    trRes.innerHTML = `
+        <td colspan="7" style="text-align:right;">
+            Note ${bloc.comp}
+        </td>
+        <td id="res-${ci}">
+            - / 4
+        </td>
+    `;
+
+    body.appendChild(trRes);
+});
+
+
+/* =====================================
+ANTI-DOUBLON DES QUESTIONS
+===================================== */
+
+function updateQuestionLists() {
+
+    let selectedValues = [];
+
+    data.forEach((bloc, ci) => {
+        bloc.items.forEach((_, i) => {
+            const select = document.getElementById(`q-${ci}-${i}`);
+
+            if (select.value !== "") {
+                selectedValues.push(select.value);
+            }
+        });
+    });
+
+    data.forEach((bloc, ci) => {
+        bloc.items.forEach((_, i) => {
+
+            const select = document.getElementById(`q-${ci}-${i}`);
+            const currentValue = select.value;
+
+            Array.from(select.options).forEach(option => {
+
+                if (option.value === "") {
+                    option.disabled = false;
+                    return;
+                }
+
+                if (
+                    option.value !== currentValue &&
+                    selectedValues.includes(option.value)
+                ) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+        });
+    });
 }
 
-tr.innerHTML += `
-<td class="cap">${it[0]}</td>
-<td>${it[1]}</td>
 
-<td><input type="radio" name="c-${ci}-${i}" value="0"></td>
-<td><input type="radio" name="c-${ci}-${i}" value="1"></td>
-<td><input type="radio" name="c-${ci}-${i}" value="2" checked></td>
-
-<td><input type="checkbox" id="v-${ci}-${i}" checked></td>
-<td id="calc-${ci}-${i}">-</td>
-`;
-
-body.appendChild(tr);
-
-});
-
-// ligne résultat compétence
-let trRes = document.createElement("tr");
-trRes.innerHTML = `
-<td colspan="7" style="text-align:right;font-weight:bold;">
-Note ${bloc.comp}
-</td>
-<td id="res-${ci}">- / 4</td>
-`;
-
-body.appendChild(trRes);
-
-});
+/* =====================================
+CALCUL DES NOTES
+===================================== */
 
 function calculer() {
 
-let total = 0;
+    let totalSur20 = 0;
 
-data.forEach((bloc, ci) => {
+    data.forEach((bloc, ci) => {
 
-let somme = 0;
-let valid = 0;
+        let somme = 0;
+        let nbValides = 0;
 
-bloc.items.forEach((it, i) => {
+        bloc.items.forEach((_, i) => {
 
-let radios = document.getElementsByName(`c-${ci}-${i}`);
-let val = 0;
+            let radios = document.getElementsByName(`note-${ci}-${i}`);
+            let valeur = 0;
 
-radios.forEach(r => {
-if (r.checked) val = parseInt(r.value);
-});
+            radios.forEach(r => {
+                if (r.checked) {
+                    valeur = parseInt(r.value);
+                }
+            });
 
-let ok = document.getElementById(`v-${ci}-${i}`).checked;
+            const valide =
+                document.getElementById(`val-${ci}-${i}`).checked;
 
-if (ok) {
-somme += val;
-valid++;
-document.getElementById(`calc-${ci}-${i}`).innerText = val;
-} else {
-document.getElementById(`calc-${ci}-${i}`).innerText = "X";
+            if (valide) {
+                somme += valeur;
+                nbValides++;
+
+                document.getElementById(`calc-${ci}-${i}`).innerText =
+                    valeur;
+            } else {
+                document.getElementById(`calc-${ci}-${i}`).innerText =
+                    "X";
+            }
+        });
+
+        /*
+        Calcul :
+
+        max par item = 2
+
+        conversion sur 4 :
+
+        (somme / max possible) × 4
+
+        puis ARRONDI ENTIER
+        */
+
+        let noteSur4 = 0;
+
+        if (nbValides > 0) {
+            noteSur4 =
+                Math.round(
+                    (somme / (nbValides * 2)) * 4
+                );
+        }
+
+        /*
+        sécurité :
+        borne entre 0 et 4
+        */
+
+        if (noteSur4 < 0) noteSur4 = 0;
+        if (noteSur4 > 4) noteSur4 = 4;
+
+        totalSur20 += noteSur4;
+
+        document.getElementById(`res-${ci}`).innerText =
+            noteSur4 + " / 4";
+    });
+
+    /*
+    total entier sur 20
+    */
+
+    let total20 =
+        Math.round(totalSur20);
+
+    /*
+    conversion sur 10
+    */
+
+    let total10 =
+        Math.round((total20 / 20) * 10);
+
+    document.getElementById("final").innerHTML =
+        "Total sur 20 : <strong>" +
+        total20 +
+        " / 20</strong><br>" +
+
+        "Total sur 10 : <strong>" +
+        total10 +
+        " / 10</strong>";
 }
 
-});
 
-let note = 0;
-
-if (valid > 0) {
-note = (somme / (valid * 2)) * 4;
-}
-
-total += note;
-
-document.getElementById(`res-${ci}`).innerText =
-note.toFixed(2) + " / 4";
-
-});
-
-let final = (total / 20) * 10;
-
-document.getElementById("final").innerText =
-"Note finale : " + final.toFixed(2) + " / 10";
-
-}
+/* initialisation */
+updateQuestionLists();
 
 </script>
 
