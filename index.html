@@ -93,29 +93,6 @@ select {
 
 <script>
 
-/*
-OBJECTIF :
-
-- 5 compétences
-- 5 lignes par compétence
-- Questions : 1A à 8A + 1B à 8B
-- aucun doublon autorisé
-
-NOTATION :
-
-Chaque compétence :
-→ note entière sur 4
-
-Toutes les compétences ont
-exactement le même poids
-
-Total :
-→ entier sur 20
-
-Puis conversion :
-→ entier sur 10
-*/
-
 const questionOptions = [
     "",
     "1A","2A","3A","4A","5A","6A","7A","8A",
@@ -205,34 +182,13 @@ data.forEach((bloc, ci) => {
                 </select>
             </td>
 
-            <td>
-                <input type="radio"
-                       name="note-${ci}-${i}"
-                       value="0">
-            </td>
+            <td><input type="radio" name="note-${ci}-${i}" value="0"></td>
+            <td><input type="radio" name="note-${ci}-${i}" value="1"></td>
+            <td><input type="radio" name="note-${ci}-${i}" value="2" checked></td>
 
-            <td>
-                <input type="radio"
-                       name="note-${ci}-${i}"
-                       value="1">
-            </td>
+            <td><input type="checkbox" id="val-${ci}-${i}" checked></td>
 
-            <td>
-                <input type="radio"
-                       name="note-${ci}-${i}"
-                       value="2"
-                       checked>
-            </td>
-
-            <td>
-                <input type="checkbox"
-                       id="val-${ci}-${i}"
-                       checked>
-            </td>
-
-            <td id="calc-${ci}-${i}">
-                -
-            </td>
+            <td id="calc-${ci}-${i}">-</td>
         `;
 
         body.appendChild(tr);
@@ -245,63 +201,38 @@ data.forEach((bloc, ci) => {
         <td colspan="7" style="text-align:right;">
             Note ${bloc.comp}
         </td>
-        <td id="res-${ci}">
-            - / 4
-        </td>
+        <td id="res-${ci}">- / 4</td>
     `;
 
     body.appendChild(trRes);
 });
 
-
-/* =====================================
-ANTI-DOUBLON DES QUESTIONS
-===================================== */
-
 function updateQuestionLists() {
-
     let selectedValues = [];
 
     data.forEach((bloc, ci) => {
         bloc.items.forEach((_, i) => {
             const select = document.getElementById(`q-${ci}-${i}`);
-
-            if (select.value !== "") {
-                selectedValues.push(select.value);
-            }
+            if (select.value !== "") selectedValues.push(select.value);
         });
     });
 
     data.forEach((bloc, ci) => {
         bloc.items.forEach((_, i) => {
-
             const select = document.getElementById(`q-${ci}-${i}`);
             const currentValue = select.value;
 
             Array.from(select.options).forEach(option => {
+                if (option.value === "") return;
 
-                if (option.value === "") {
-                    option.disabled = false;
-                    return;
-                }
-
-                if (
+                option.disabled = (
                     option.value !== currentValue &&
                     selectedValues.includes(option.value)
-                ) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
+                );
             });
         });
     });
 }
-
-
-/* =====================================
-CALCUL DES NOTES
-===================================== */
 
 function calculer() {
 
@@ -318,76 +249,51 @@ function calculer() {
             let valeur = 0;
 
             radios.forEach(r => {
-                if (r.checked) {
-                    valeur = parseInt(r.value);
-                }
+                if (r.checked) valeur = parseInt(r.value);
             });
 
-            const valide =
-                document.getElementById(`val-${ci}-${i}`).checked;
+            const valide = document.getElementById(`val-${ci}-${i}`).checked;
 
             if (valide) {
                 somme += valeur;
                 nbValides++;
-
-                document.getElementById(`calc-${ci}-${i}`).innerText =
-                    valeur;
+                document.getElementById(`calc-${ci}-${i}`).innerText = valeur;
             } else {
-                document.getElementById(`calc-${ci}-${i}`).innerText =
-                    "X";
+                document.getElementById(`calc-${ci}-${i}`).innerText = "X";
             }
         });
-
-        /*
-        Calcul :
-
-        max par item = 2
-
-        conversion sur 4 :
-
-        (somme / max possible) × 4
-
-        puis ARRONDI ENTIER
-        */
 
         let noteSur4 = 0;
 
         if (nbValides > 0) {
-            noteSur4 =
-                Math.round(
-                    (somme / (nbValides * 2)) * 4
-                );
+            noteSur4 = Math.round((somme / (nbValides * 2)) * 4);
         }
 
-        /*
-        sécurité :
-        borne entre 0 et 4
-        */
-
+        // bornes 0-4
         if (noteSur4 < 0) noteSur4 = 0;
         if (noteSur4 > 4) noteSur4 = 4;
 
+        // NOUVELLE REGLE : minimum 1/4 si compétence évaluée
+        if (nbValides > 0 && noteSur4 < 1) {
+            noteSur4 = 1;
+        }
+
         totalSur20 += noteSur4;
 
-        document.getElementById(`res-${ci}`).innerText =
-            noteSur4 + " / 4";
+        document.getElementById(`res-${ci}`).innerText = noteSur4 + " / 4";
     });
 
-    /*
-    total entier sur 20
-    */
+    // total sur 20
+    let total20 = Math.round(totalSur20);
 
-    let total20 =
-        Math.round(totalSur20);
-    
+    // borne globale demandée : min 4/20, max 20/20
+    if (total20 < 4) total20 = 4;
+    if (total20 > 20) total20 = 20;
+
     document.getElementById("final").innerHTML =
-        "Total sur 20 : <strong>" +
-        total20 +
-        " / 20</strong><br>";
-    }
+        "Total sur 20 : <strong>" + total20 + " / 20</strong><br>";
+}
 
-
-/* initialisation */
 updateQuestionLists();
 
 </script>
