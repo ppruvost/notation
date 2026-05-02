@@ -379,23 +379,12 @@ function calculer() {
 
     let total20 =
         Math.round(totalSur20);
-
-    /*
-    conversion sur 10
-    */
-
-    let total10 =
-        Math.round((total20 / 20) * 10);
-
+    
     document.getElementById("final").innerHTML =
         "Total sur 20 : <strong>" +
         total20 +
-        " / 20</strong><br>" +
-
-        "Total sur 10 : <strong>" +
-        total10 +
-        " / 10</strong>";
-}
+        " / 20</strong><br>";
+    }
 
 
 /* initialisation */
