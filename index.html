@@ -369,41 +369,7 @@ function calculer() {
     let total20 = 0;
     let nbCompetencesEvaluees = 0;
 
-    if (totalCasesCochees > 0) {
-        /*
-        FORMULE retenue :
-        vert = 2 points
-        jaune = 1 point
-        rouge = 0 point
-
-        note finale :
-        (points obtenus / points max possibles) × 20
-
-        Exemple :
-        5 jaunes = 5 points sur 10
-        => 10/20
-
-        Ce calcul donne des notes très proches
-        du tableau de référence.
-        */
-
-        /*
-        Nouvelle logique demandée :
-
-        - on ne calcule QUE sur les compétences évaluées
-        - si 1 seule compétence évaluée :
-            4/4 => 20/20
-            2/4 => 10/20
-            1/4 => 4/20 mini
-
-        - idem si 2,3,4 ou 5 compétences :
-          proratisation automatique
-
-        donc :
-
-        note finale =
-        (total obtenu / maximum possible des compétences évaluées) × 20
-        */
+    if (totalCasesCochees > 0) {        
 
         let maxPossible = nbCompetencesEvaluees * 4;
 
