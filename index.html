@@ -2,21 +2,37 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grille d’évaluation des compétences</title>
 
 <style>
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 16px;
+    background: #fff;
 }
 
 h2 {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+}
+
+/* conteneur responsive table */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 table {
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    table-layout: auto;
     border-collapse: collapse;
     width: 100%;
+    min-width: 900px;
 }
 
 th, td {
@@ -24,6 +40,7 @@ th, td {
     padding: 6px;
     text-align: center;
     vertical-align: middle;
+    font-size: 0.9rem;
 }
 
 th {
@@ -41,15 +58,22 @@ th {
     width: 420px;
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 15px;
+select {
+    width: 70px;
+    max-width: 100%;
 }
 
-select {
-    width: 80px;
+input[type="radio"], input[type="checkbox"] {
+    transform: scale(1.1);
+}
+
+button {
+    margin-top: 16px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 320px;
 }
 
 .result-line {
@@ -58,10 +82,78 @@ select {
 }
 
 #final {
-    margin-top: 20px;
-    font-size: 20px;
+    margin-top: 16px;
+    font-size: 18px;
     font-weight: bold;
-    line-height: 1.8;
+    line-height: 1.6;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+    th, td {
+        font-size: 0.8rem;
+        padding: 4px;
+    }
+
+    .cap {
+        width: auto;
+        min-width: 200px;
+    }
+
+    select {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .table-wrapper {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow-x: auto;
+        background: #fff;
+    }
+
+    th, td {
+        white-space: nowrap;
+    }
+
+    #final {
+        font-size: 16px;
+    }
+
+    select {
+        font-size: 14px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        transform: scale(1.2);
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    table {
+        min-width: 650px;
+    }
 }
 </style>
 </head>
@@ -70,6 +162,7 @@ select {
 
 <h2>Grille d’évaluation des compétences</h2>
 
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
@@ -86,6 +179,7 @@ select {
 
     <tbody id="tableBody"></tbody>
 </table>
+</div>
 
 <button onclick="calculer()">Calculer les notes</button>
 
@@ -164,30 +258,22 @@ data.forEach((bloc, ci) => {
 
         if (first) {
             tr.innerHTML += `
-                <td class="comp" rowspan="5">
-                    ${bloc.comp}
-                </td>
+                <td class="comp" rowspan="5">${bloc.comp}</td>
             `;
             first = false;
         }
 
         tr.innerHTML += `
             <td class="cap">${capacite}</td>
-
             <td>
                 <select id="q-${ci}-${i}" onchange="updateQuestionLists()">
-                    ${questionOptions.map(q =>
-                        `<option value="${q}">${q}</option>`
-                    ).join("")}
+                    ${questionOptions.map(q => `<option value="${q}">${q}</option>`).join("")}
                 </select>
             </td>
-
             <td><input type="radio" name="note-${ci}-${i}" value="0"></td>
             <td><input type="radio" name="note-${ci}-${i}" value="1"></td>
             <td><input type="radio" name="note-${ci}-${i}" value="2" checked></td>
-
             <td><input type="checkbox" id="val-${ci}-${i}" checked></td>
-
             <td id="calc-${ci}-${i}">-</td>
         `;
 
@@ -198,9 +284,7 @@ data.forEach((bloc, ci) => {
     trRes.className = "result-line";
 
     trRes.innerHTML = `
-        <td colspan="7" style="text-align:right;">
-            Note ${bloc.comp}
-        </td>
+        <td colspan="7" style="text-align:right;">Note ${bloc.comp}</td>
         <td id="res-${ci}">- / 4</td>
     `;
 
@@ -208,6 +292,7 @@ data.forEach((bloc, ci) => {
 });
 
 function updateQuestionLists() {
+
     let selectedValues = [];
 
     data.forEach((bloc, ci) => {
@@ -269,29 +354,23 @@ function calculer() {
             noteSur4 = Math.round((somme / (nbValides * 2)) * 4);
         }
 
-        // bornes 0-4
         if (noteSur4 < 0) noteSur4 = 0;
         if (noteSur4 > 4) noteSur4 = 4;
 
-        // NOUVELLE REGLE : minimum 1/4 si compétence évaluée
-        if (nbValides > 0 && noteSur4 < 1) {
-            noteSur4 = 1;
-        }
+        if (nbValides > 0 && noteSur4 < 1) noteSur4 = 1;
 
         totalSur20 += noteSur4;
 
         document.getElementById(`res-${ci}`).innerText = noteSur4 + " / 4";
     });
 
-    // total sur 20
     let total20 = Math.round(totalSur20);
 
-    // borne globale demandée : min 4/20, max 20/20
     if (total20 < 4) total20 = 4;
     if (total20 > 20) total20 = 20;
 
     document.getElementById("final").innerHTML =
-        "Total sur 20 : <strong>" + total20 + " / 20</strong><br>";
+        "Total sur 20 : <strong>" + total20 + " / 20</strong>";
 }
 
 updateQuestionLists();
