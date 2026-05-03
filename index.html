@@ -314,6 +314,7 @@ function updateQuestionLists() {
 function calculer() {
 
     let totalSur20 = 0;
+    let totalCasesCochees = 0;
 
     data.forEach((bloc, ci) => {
 
@@ -334,6 +335,7 @@ function calculer() {
             if (valide) {
                 somme += valeur;
                 nbValides++;
+                totalCasesCochees++;
                 
             } else {
                 
@@ -356,9 +358,17 @@ function calculer() {
         document.getElementById(`res-${ci}`).innerText = noteSur4 + " / 4";
     });
 
-    let total20 = Math.round(totalSur20);
+    let total20 = 0;
 
-    if (total20 < 4) total20 = 4;
+    if (totalCasesCochees > 0) {
+        
+        let pointsMax = totalCasesCochees * 2;
+
+        total20 = Math.round((totalSur20 / pointsMax) * 20);
+    }
+
+    // plancher demandé
+    if (total20 > 0 && total20 < 4) total20 = 4;
     if (total20 > 20) total20 = 20;
 
     document.getElementById("final").innerHTML =
