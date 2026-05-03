@@ -173,7 +173,7 @@ button {
             <th>1</th>
             <th>2</th>
             <th>Validation</th>
-            <th>Aide chiffrée</th>
+            <th>Total compétence</th>
         </tr>
     </thead>
 
@@ -274,21 +274,13 @@ data.forEach((bloc, ci) => {
             <td><input type="radio" name="note-${ci}-${i}" value="1"></td>
             <td><input type="radio" name="note-${ci}-${i}" value="2" checked></td>
             <td><input type="checkbox" id="val-${ci}-${i}" checked></td>
-            <td id="calc-${ci}-${i}">-</td>
+            ${i === 0 ? `<td id="res-${ci}" rowspan="5">- / 4</td>` : ``}
         `;
 
         body.appendChild(tr);
     });
 
-    let trRes = document.createElement("tr");
-    trRes.className = "result-line";
-
-    trRes.innerHTML = `
-        <td colspan="7" style="text-align:right;">Note ${bloc.comp}</td>
-        <td id="res-${ci}">- / 4</td>
-    `;
-
-    body.appendChild(trRes);
+    
 });
 
 function updateQuestionLists() {
@@ -342,9 +334,9 @@ function calculer() {
             if (valide) {
                 somme += valeur;
                 nbValides++;
-                document.getElementById(`calc-${ci}-${i}`).innerText = valeur;
+                
             } else {
-                document.getElementById(`calc-${ci}-${i}`).innerText = "X";
+                
             }
         });
 
