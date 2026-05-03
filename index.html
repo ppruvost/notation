@@ -312,78 +312,55 @@ function updateQuestionLists() {
 }
 
 function calculer() {
-
     let totalSur20 = 0;
     let totalCasesCochees = 0;
+    let nbCompetencesEvaluees = 0; // Déclarée ici
 
     data.forEach((bloc, ci) => {
-
         let somme = 0;
         let nbValides = 0;
 
         bloc.items.forEach((_, i) => {
-
             let radios = document.getElementsByName(`note-${ci}-${i}`);
             let valeur = 0;
-
             radios.forEach(r => {
                 if (r.checked) valeur = parseInt(r.value);
             });
 
             const valide = document.getElementById(`val-${ci}-${i}`).checked;
-
             if (valide) {
                 somme += valeur;
                 nbValides++;
                 totalCasesCochees++;
-                
-            } else {
-                
             }
         });
 
         let noteSur4 = 0;
-
         if (nbValides > 0) {
             noteSur4 = Math.round((somme / (nbValides * 2)) * 4);
+            nbCompetencesEvaluees++; // Incrémentée ici
+            if (noteSur4 < 1) noteSur4 = 1; // Plancher de 1/4
         }
 
         if (noteSur4 < 0) noteSur4 = 0;
         if (noteSur4 > 4) noteSur4 = 4;
-
-        if (nbValides > 0) {
-            nbCompetencesEvaluees++;
-
-            /*
-            minimum 1/4 par compétence évaluée
-            (= plancher global futur de 4/20 mini)
-            */
-            if (noteSur4 < 1) noteSur4 = 1;
-        }
-
         totalSur20 += noteSur4;
-
         document.getElementById(`res-${ci}`).innerText = noteSur4 + " / 4";
     });
 
     let total20 = 0;
-    let nbCompetencesEvaluees = 0;
-
-    if (totalCasesCochees > 0) {        
-
+    if (totalCasesCochees > 0) {
         let maxPossible = nbCompetencesEvaluees * 4;
-
         total20 = Math.round((totalSur20 / maxPossible) * 20);
     }
 
-    // plancher demandé
+    // Plancher global
     if (total20 > 0 && total20 < 4) total20 = 4;
     if (total20 > 20) total20 = 20;
 
     document.getElementById("final").innerHTML =
         "Total sur 20 : <strong>" + total20 + " / 20</strong>";
 }
-
 updateQuestionLists();
 
 </script>
