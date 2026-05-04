@@ -95,9 +95,21 @@ button {
     opacity: 0.55;
 }
 
-.row-disabled td {
+.row-disabled .cap,
+.row-disabled .question-cell,
+.row-disabled .note-cell {
     background: #f0f0f0 !important;
     color: #777;
+}
+
+.row-disabled select,
+.row-disabled input[type="radio"] {
+    pointer-events: none;
+    cursor: default !important;
+}
+
+.row-disabled .cap {
+    color: #888;
 }
 
 .row-disabled select,
@@ -301,14 +313,22 @@ data.forEach((bloc, ci) => {
 
         tr.innerHTML += `
             <td class="cap">${capacite}</td>
-            <td>
+            <td class="question-cell">
                 <select id="q-${ci}-${i}" onchange="updateQuestionLists()">
                     ${questionOptions.map(q => `<option value="${q}">${q}</option>`).join("")}
                 </select>
             </td>
-            <td><input type="radio" name="note-${ci}-${i}" value="0"></td>
-            <td><input type="radio" name="note-${ci}-${i}" value="1"></td>
-            <td><input type="radio" name="note-${ci}-${i}" value="2" checked></td>
+            <td class="note-cell">
+                <input type="radio" name="note-${ci}-${i}" value="0">
+            </td>
+
+            <td class="note-cell">
+                <input type="radio" name="note-${ci}-${i}" value="1">
+            </td>
+
+            <td class="note-cell">
+                <input type="radio" name="note-${ci}-${i}" value="2" checked>
+            </td>
             <td>
                 <input
                     type="checkbox"
