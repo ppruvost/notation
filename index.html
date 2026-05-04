@@ -88,6 +88,28 @@ button {
     line-height: 1.6;
 }
 
+/* ligne désactivée (case non cochée) */
+
+.row-disabled {
+    background: #f0f0f0 !important;
+    opacity: 0.55;
+}
+
+.row-disabled td {
+    background: #f0f0f0 !important;
+    color: #777;
+}
+
+.row-disabled select,
+.row-disabled input[type="radio"] {
+    pointer-events: none;
+    cursor: default !important;
+}
+
+.row-disabled .cap {
+    color: #888;
+}
+    
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
@@ -268,6 +290,7 @@ data.forEach((bloc, ci) => {
     bloc.items.forEach((capacite, i) => {
 
         let tr = document.createElement("tr");
+        tr.id = `row-${ci}-${i}`;
 
         if (first) {
             tr.innerHTML += `
@@ -286,7 +309,14 @@ data.forEach((bloc, ci) => {
             <td><input type="radio" name="note-${ci}-${i}" value="0"></td>
             <td><input type="radio" name="note-${ci}-${i}" value="1"></td>
             <td><input type="radio" name="note-${ci}-${i}" value="2" checked></td>
-            <td><input type="checkbox" id="val-${ci}-${i}" checked></td>
+            <td>
+                <input
+                    type="checkbox"
+                    id="val-${ci}-${i}"
+                    checked
+                    onchange="toggleRowState(${ci}, ${i})"
+                >
+            </td>
             ${i === 0 ? `<td id="res-${ci}" rowspan="5">- / 4</td>` : ``}
         `;
 
@@ -324,6 +354,33 @@ function updateQuestionLists() {
     });
 }
 
+function toggleRowState(ci, i) {
+
+    const row = document.getElementById(`row-${ci}-${i}`);
+    const checked = document.getElementById(`val-${ci}-${i}`).checked;
+
+    const radios = document.getElementsByName(`note-${ci}-${i}`);
+    const select = document.getElementById(`q-${ci}-${i}`);
+
+    if (!checked) {
+        row.classList.add("row-disabled");
+
+        radios.forEach(r => {
+            r.disabled = true;
+        });
+
+        select.disabled = true;
+    } else {
+        row.classList.remove("row-disabled");
+
+        radios.forEach(r => {
+            r.disabled = false;
+        });
+
+        select.disabled = false;
+    }
+}
+    
 function calculer() {
     let totalSur20 = 0;
     let totalCasesCochees = 0;
@@ -374,6 +431,13 @@ function calculer() {
     document.getElementById("final").innerHTML =
         "Total sur 20 : <strong>" + total20 + " / 20</strong>";
 }
+
+    data.forEach((bloc, ci) => {
+        bloc.items.forEach((_, i) => {
+            toggleRowState(ci, i);
+        });
+    });  
+    
 updateQuestionLists();
 
 </script>
