@@ -1,0 +1,175 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 16px;
+    background: #fff;
+}
+
+h2 {
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+th,
+td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+th {
+    background: #f2f2f2;
+}
+
+.comp {
+    background: #e6e6e6;
+    font-weight: bold;
+    width: 180px;
+}
+
+.cap {
+    text-align: left;
+    width: 420px;
+}
+
+select {
+    width: 70px;
+    max-width: 100%;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    transform: scale(1.1);
+}
+
+button {
+    margin-top: 16px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    max-width: 320px;
+}
+
+#final {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+#footer-note {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-top: 1px solid #ccc;
+    padding-top: 16px;
+}
+
+.row-disabled {
+    background: #f0f0f0 !important;
+    opacity: 0.55;
+}
+
+.row-disabled .cap,
+.row-disabled .question-cell,
+.row-disabled .note-cell {
+    background: #f0f0f0 !important;
+    color: #777;
+}
+
+.row-disabled select,
+.row-disabled input[type="radio"] {
+    pointer-events: none;
+    cursor: default !important;
+}
+
+.row-disabled .cap {
+    color: #888;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 768px) {
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        min-width: 700px;
+    }
+
+    th,
+    td {
+        font-size: 0.8rem;
+        padding: 4px;
+    }
+
+    .cap {
+        width: auto;
+        min-width: 200px;
+    }
+
+    select {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .table-wrapper {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    #final {
+        font-size: 16px;
+    }
+
+    select {
+        font-size: 14px;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        transform: scale(1.2);
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    table {
+        min-width: 650px;
+    }
+}
