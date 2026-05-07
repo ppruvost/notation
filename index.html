@@ -1,488 +1,71 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grille d’évaluation des compétences</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grille d’évaluation des compétences</title>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 16px;
-    background: #fff;
-}
-
-h2 {
-    margin-bottom: 16px;
-    font-size: 1.4rem;
-}
-
-/* conteneur responsive table */
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-table {
-    display: table;
-    width: 100%;
-    max-width: 100%;
-    table-layout: auto;
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 900px;
-}
-
-th, td {
-    border: 1px solid #000;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 0.9rem;
-}
-
-th {
-    background: #f2f2f2;
-}
-
-.comp {
-    background: #e6e6e6;
-    font-weight: bold;
-    width: 180px;
-}
-
-.cap {
-    text-align: left;
-    width: 420px;
-}
-
-select {
-    width: 70px;
-    max-width: 100%;
-}
-
-input[type="radio"], input[type="checkbox"] {
-    transform: scale(1.1);
-}
-
-button {
-    margin-top: 16px;
-    padding: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    max-width: 320px;
-}
-
-.result-line {
-    font-weight: bold;
-    background: #fafafa;
-}
-
-#final {
-    margin-top: 16px;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1.6;
-}
-
-/* ligne désactivée (case non cochée) */
-
-.row-disabled {
-    background: #f0f0f0 !important;
-    opacity: 0.55;
-}
-
-.row-disabled .cap,
-.row-disabled .question-cell,
-.row-disabled .note-cell {
-    background: #f0f0f0 !important;
-    color: #777;
-}
-
-.row-disabled select,
-.row-disabled input[type="radio"] {
-    pointer-events: none;
-    cursor: default !important;
-}
-
-.row-disabled .cap {
-    color: #888;
-}
-
-.row-disabled select,
-.row-disabled input[type="radio"] {
-    pointer-events: none;
-    cursor: default !important;
-}
-
-.row-disabled .cap {
-    color: #888;
-}
-    
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-
-    h2 {
-        font-size: 1.2rem;
-    }
-
-    table {
-        min-width: 700px;
-    }
-
-    th, td {
-        font-size: 0.8rem;
-        padding: 4px;
-    }
-
-    .cap {
-        width: auto;
-        min-width: 200px;
-    }
-
-    select {
-        width: 60px;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .table-wrapper {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow-x: auto;
-        background: #fff;
-    }
-
-    th, td {
-        white-space: nowrap;
-    }
-
-    #final {
-        font-size: 16px;
-    }
-
-    select {
-        font-size: 14px;
-    }
-
-    input[type="radio"], input[type="checkbox"] {
-        transform: scale(1.2);
-    }
-
-    body {
-        padding: 10px;
-    }
-
-    h2 {
-        font-size: 1.1rem;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    table {
-        min-width: 650px;
-    }
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>Grille d’évaluation des compétences</h2>
+    <h2>Grille d’évaluation des compétences</h2>
 
-<div class="table-wrapper">
-<table>
-    <thead>
-        <tr>
-            <th>Compétences</th>
-            <th>Capacités</th>
-            <th>Questions</th>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-            <th>Validation</th>
-            <th>Total compétence</th>
-        </tr>
-    </thead>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Compétences</th>
+                    <th>Capacités</th>
+                    <th>Questions</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>Validation</th>
+                    <th>Total compétence</th>
+                </tr>
+            </thead>
 
-    <tbody id="tableBody"></tbody>
-</table>
-</div>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
 
-<button onclick="calculer()">Calculer les notes</button>
+    <button onclick="calculer()">Calculer les notes</button>
 
-<h3 id="final"></h3>
-<div id="footer-note" style="margin-top:20px; font-size:14px; line-height:1.6; border-top:1px solid #ccc; padding-top:16px;">
-<strong>La sous-épreuve de mathématiques a pour objectif d'évaluer le niveau de maîtrise des compétences terminales telles que définies dans le programme, notamment :</strong><br><br>
+    <h3 id="final"></h3>
 
-- s'approprier : rechercher, extraire et organiser l'information ;<br>
-- analyser/raisonner : émettre des conjectures ; proposer, choisir, une méthode de résolution ; élaborer un algorithme ;<br>
-- réaliser : mettre en œuvre une méthode de résolution, des algorithmes ; utiliser un modèle ; représenter ; calculer ; expérimenter ; faire une simulation ;<br>
-- valider : critiquer un résultat, argumenter ; contrôler la vraisemblance d'une conjecture ; mener un raisonnement logique et établir une conclusion ;<br>
-- communiquer : rendre compte d'une démarche, d'un résultat, à l'oral ou à l'écrit à l'aide d'outils et d'un langage approprié. Expliquer une démarche.<br><br>
+    <div id="footer-note">
+        <strong>
+            La sous-épreuve de mathématiques a pour objectif d'évaluer le niveau
+            de maîtrise des compétences terminales telles que définies dans le programme,
+            notamment :
+        </strong>
 
-<strong>Cotations :</strong><br>
-2 : conforme aux attendus<br>
-1 : partiellement conforme aux attendus<br>
-0 : non conforme aux attendus
-</div>
-<script>
+        <br><br>
 
-const questionOptions = [
-    "",
-    "1A","2A","3A","4A","5A","6A","7A","8A",
-    "1B","2B","3B","4B","5B","6B","7B","8B"
-];
+        - s'approprier : rechercher, extraire et organiser l'information ;<br>
+        - analyser/raisonner : émettre des conjectures ; proposer, choisir,
+        une méthode de résolution ; élaborer un algorithme ;<br>
+        - réaliser : mettre en œuvre une méthode de résolution, des algorithmes ;
+        utiliser un modèle ; représenter ; calculer ; expérimenter ;
+        faire une simulation ;<br>
+        - valider : critiquer un résultat, argumenter ;
+        contrôler la vraisemblance d'une conjecture ;
+        mener un raisonnement logique et établir une conclusion ;<br>
+        - communiquer : rendre compte d'une démarche, d'un résultat,
+        à l'oral ou à l'écrit à l'aide d'outils et d'un langage approprié.
+        Expliquer une démarche.<br><br>
 
-const data = [
-{
-    comp: "S’approprier",
-    items: [
-        "Rechercher, extraire et organiser l’information.",
-        "Traduire des informations, des codages.",
-        "",
-        "",
-        ""
-    ]
-},
-{
-    comp: "Analyser / Raisonner",
-    items: [
-        "Émettre des conjectures, formuler des hypothèses.",
-        "Proposer, choisir une méthode de résolution.",
-        "Élaborer un algorithme.",
-        "",
-        ""
-    ]
-},
-{
-    comp: "Réaliser",
-    items: [
-        "Mettre en œuvre une méthode ou un protocole.",
-        "Utiliser un modèle, représenter, calculer.",
-        "Expérimenter, faire une simulation.",
-        "",
-        ""
-    ]
-},
-{
-    comp: "Valider",
-    items: [
-        "Exploiter et interpréter des résultats.",
-        "Contrôler la vraisemblance d’une mesure.",
-        "Valider un modèle ou une hypothèse.",
-        "",
-        ""
-    ]
-},
-{
-    comp: "Communiquer",
-    items: [
-        "Rendre compte d’un résultat.",
-        "Expliquer une démarche.",
-        "",
-        "",
-        ""
-    ]
-}
-];
+        <strong>Cotations :</strong><br>
+        2 : conforme aux attendus<br>
+        1 : partiellement conforme aux attendus<br>
+        0 : non conforme aux attendus
+    </div>
 
-const body = document.getElementById("tableBody");
-
-data.forEach((bloc, ci) => {
-
-    let first = true;
-
-    bloc.items.forEach((capacite, i) => {
-
-        let tr = document.createElement("tr");
-        tr.id = `row-${ci}-${i}`;
-
-        if (first) {
-            tr.innerHTML += `
-                <td class="comp" rowspan="5">${bloc.comp}</td>
-            `;
-            first = false;
-        }
-
-        tr.innerHTML += `
-            <td class="cap">${capacite}</td>
-            <td class="question-cell">
-                <select id="q-${ci}-${i}" onchange="updateQuestionLists()">
-                    ${questionOptions.map(q => `<option value="${q}">${q}</option>`).join("")}
-                </select>
-            </td>
-            <td class="note-cell">
-                <input type="radio" name="note-${ci}-${i}" value="0">
-            </td>
-
-            <td class="note-cell">
-                <input type="radio" name="note-${ci}-${i}" value="1">
-            </td>
-
-            <td class="note-cell">
-                <input type="radio" name="note-${ci}-${i}" value="2" checked>
-            </td>
-            <td>
-                <input
-                    type="checkbox"
-                    id="val-${ci}-${i}"
-                    checked
-                    onchange="toggleRowState(${ci}, ${i})"
-                >
-            </td>
-            ${i === 0 ? `<td id="res-${ci}" rowspan="5">- / 4</td>` : ``}
-        `;
-
-        body.appendChild(tr);
-    });
-
-    
-});
-
-function updateQuestionLists() {
-
-    let selectedValues = [];
-
-    data.forEach((bloc, ci) => {
-        bloc.items.forEach((_, i) => {
-            const select = document.getElementById(`q-${ci}-${i}`);
-            if (select.value !== "") selectedValues.push(select.value);
-        });
-    });
-
-    data.forEach((bloc, ci) => {
-        bloc.items.forEach((_, i) => {
-            const select = document.getElementById(`q-${ci}-${i}`);
-            const currentValue = select.value;
-
-            Array.from(select.options).forEach(option => {
-                if (option.value === "") return;
-
-                option.disabled = (
-                    option.value !== currentValue &&
-                    selectedValues.includes(option.value)
-                );
-            });
-        });
-    });
-}
-
-function toggleRowState(ci, i) {
-
-    const row = document.getElementById(`row-${ci}-${i}`);
-    const checked = document.getElementById(`val-${ci}-${i}`).checked;
-
-    const radios = document.getElementsByName(`note-${ci}-${i}`);
-    const select = document.getElementById(`q-${ci}-${i}`);
-
-    if (!checked) {
-        row.classList.add("row-disabled");
-
-        radios.forEach(r => {
-            r.disabled = true;
-        });
-
-        select.disabled = true;
-    } else {
-        row.classList.remove("row-disabled");
-
-        radios.forEach(r => {
-            r.disabled = false;
-        });
-
-        select.disabled = false;
-    }
-}
-    
-function calculer() {
-
-    let totalPoints = 0;
-    let totalMax = 0;
-
-    data.forEach((bloc, ci) => {
-
-        let somme = 0;
-        let nbValides = 0;
-
-        bloc.items.forEach((_, i) => {
-
-            const valide = document.getElementById(`val-${ci}-${i}`).checked;
-
-            if (!valide) return;
-
-            let valeur = 0;
-
-            const radios = document.getElementsByName(`note-${ci}-${i}`);
-
-            radios.forEach(r => {
-                if (r.checked) {
-                    valeur = parseFloat(r.value);
-                }
-            });
-
-            somme += valeur;
-            nbValides++;
-        });
-
-        let noteSur4 = 0;
-
-        if (nbValides > 0) {
-
-            // base réelle
-            let ratio = somme / (nbValides * 2);
-
-            // compression statistique réaliste
-            // évite les 18-20 trop fréquents
-            noteSur4 = (ratio * 3.25) + 0.45;
-
-            // bornes
-            if (noteSur4 < 0) noteSur4 = 0;
-            if (noteSur4 > 4) noteSur4 = 4;
-
-            // arrondi au 0.5 le plus proche
-            noteSur4 = Math.round(noteSur4 * 2) / 2;
-
-            totalPoints += noteSur4;
-            totalMax += 4;
-        }
-
-        document.getElementById(`res-${ci}`).innerText =
-            noteSur4.toFixed(1) + " / 4";
-    });
-
-    let total20 = 0;
-
-    if (totalMax > 0) {
-
-        // calcul réel sur 20
-        total20 = (totalPoints / totalMax) * 20;
-
-        // correction statistique globale
-        total20 = total20 * 0.94 + 0.6;
-    }
-
-    // bornes
-    if (total20 < 0) total20 = 0;
-    if (total20 > 20) total20 = 20;
-
-    // arrondi au nombre pair le plus proche
-    total20 = Math.round(total20 / 2) * 2;
-
-    document.getElementById("final").innerHTML =
-        "Total sur 20 : <strong>" + total20 + " / 20</strong>";
-}
-    });  
-    
-updateQuestionLists();
-
-</script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
