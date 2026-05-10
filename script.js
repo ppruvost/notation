@@ -243,10 +243,10 @@ function calculer() {
     if (total20 < 0) total20 = 0;
     if (total20 > 20) total20 = 20;
 
-    total20 = Math.round(total20 / 2) * 2;
+    total20 = Math.round(total20 * 2) / 2;
 
     document.getElementById("final").innerHTML =
-        `Total sur 20 : <strong>${total20} / 20</strong>`;
+        `Total sur 20 : <strong>${total20.toFixed(2)} / 20</strong>`;
 }
 
 data.forEach((bloc, ci) => {
