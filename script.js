@@ -197,7 +197,6 @@ function calculer() {
             if (!valide) return;
 
             let valeur = 0;
-
             const radios = document.getElementsByName(`note-${ci}-${i}`);
 
             radios.forEach(r => {
@@ -210,43 +209,50 @@ function calculer() {
             nbValides++;
         });
 
-        let noteSur4 = 0;
+        let noteSur2 = 0;
 
         if (nbValides > 0) {
 
+            // ratio entre 0 et 1
             let ratio = somme / (nbValides * 2);
 
-            noteSur4 = (ratio * 3.25) + 0.45;
+            // conversion sur 2 points
+            noteSur2 = ratio * 2;
 
-            if (noteSur4 < 0) noteSur4 = 0;
-            if (noteSur4 > 4) noteSur4 = 4;
+            // sécurité bornes
+            if (noteSur2 < 0) noteSur2 = 0;
+            if (noteSur2 > 2) noteSur2 = 2;
 
-            noteSur4 = Math.round(noteSur4 * 2) / 2;
+            // arrondi au quart de point :
+            // 0.00 / 0.25 / 0.50 / 0.75
+            noteSur2 = Math.round(noteSur2 * 4) / 4;
 
-            totalPoints += noteSur4;
-            totalMax += 4;
+            totalPoints += noteSur2;
+            totalMax += 2;
         }
 
         document.getElementById(`res-${ci}`).innerText =
-            noteSur4.toFixed(1) + " / 4";
+            noteSur2.toFixed(2) + " / 2";
     });
 
-    let total20 = 0;
+    let total10 = 0;
 
     if (totalMax > 0) {
 
-        total20 = (totalPoints / totalMax) * 20;
-
-        total20 = total20 * 0.94 + 0.6;
+        // conversion du total sur 10
+        total10 = (totalPoints / totalMax) * 10;
     }
 
-    if (total20 < 0) total20 = 0;
-    if (total20 > 20) total20 = 20;
+    // bornes de sécurité
+    if (total10 < 0) total10 = 0;
+    if (total10 > 10) total10 = 10;
 
-    total20 = Math.round(total20 * 2) / 2;
+    // arrondi au quart de point :
+    // 0.00 / 0.25 / 0.50 / 0.75
+    total10 = Math.round(total10 * 4) / 4;
 
     document.getElementById("final").innerHTML =
-        `Total sur 20 : <strong>${total20.toFixed(2)} / 20</strong>`;
+        `Total sur 10 : <strong>${total10.toFixed(2)} / 10</strong>`;
 }
 
 data.forEach((bloc, ci) => {
