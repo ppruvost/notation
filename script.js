@@ -252,7 +252,7 @@ function calculer() {
     total10 = Math.round(total10 * 4) / 4;
 
     document.getElementById("final").innerHTML =
-        `Total sur 10 : <strong>${total10.toFixed(2)} / 10</strong>`;
+        `Total : <strong>${total10.toFixed(2)} / 10</strong>`;
 }
 
 data.forEach((bloc, ci) => {
