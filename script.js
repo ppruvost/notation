@@ -114,7 +114,7 @@ data.forEach((bloc, ci) => {
             </td>
 
             ${i === 0
-                ? `<td id="res-${ci}" rowspan="5">- / 4</td>`
+                ? `<td id="res-${ci}" rowspan="5">- / 2</td>`
                 : ""
             }
         `;
