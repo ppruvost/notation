@@ -12,8 +12,7 @@ const data = [
             "Rechercher, extraire et organiser l’information.",
             "Traduire des informations, des codages.",
             "",
-            "",
-            "",
+            "",            
             ""
         ]
     },
@@ -23,8 +22,7 @@ const data = [
             "Émettre des conjectures, formuler des hypothèses.",
             "Proposer, choisir une méthode de résolution.",
             "Élaborer un algorithme.",
-            "",
-            "",
+            "",            
             ""
         ]
     },
@@ -34,8 +32,7 @@ const data = [
             "Mettre en œuvre une méthode ou un protocole.",
             "Utiliser un modèle, représenter, calculer.",
             "Expérimenter, faire une simulation.",
-            "",
-            "",
+            "",            
             ""
         ]
     },
@@ -46,7 +43,6 @@ const data = [
             "Contrôler la vraisemblance d’une mesure.",
             "Valider un modèle ou une hypothèse.",
             "",
-            "",
             ""
         ]
     },
@@ -56,8 +52,7 @@ const data = [
             "Rendre compte d’un résultat.",
             "Expliquer une démarche.",
             "",
-            "",
-            "",
+            "",            
             ""
         ]
     }
