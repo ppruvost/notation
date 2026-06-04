@@ -2,67 +2,198 @@
 <html lang="fr">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grille d’évaluation des compétences</title>
+
+    <title>
+        Grille d’évaluation des compétences
+    </title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-    <h2>Grille d’évaluation des compétences</h2>
+    <h2>
+        Grille d’évaluation des compétences
+    </h2>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Compétences</th>
-                    <th>Capacités</th>
-                    <th>Questions</th>
-                    <th>0</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>Validation</th>
-                    <th>Total compétence</th>
-                </tr>
-            </thead>
+    <!-- CHOIX MATIERE -->
 
-            <tbody id="tableBody"></tbody>
-        </table>
+    <div class="matiere-choice">
+
+        <strong>Matière :</strong>
+
+        <label>
+
+            <input
+                type="radio"
+                name="matiere"
+                value="maths"
+                checked>
+
+            Mathématiques
+
+        </label>
+
+        <label>
+
+            <input
+                type="radio"
+                name="matiere"
+                value="sciences">
+
+            Sciences
+
+        </label>
+
     </div>
 
-    <button onclick="calculer()">Calculer les notes</button>
+    <!-- TABLEAU -->
 
-    <h3 id="final"></h3>
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Compétences
+                    </th>
+
+                    <th>
+                        Capacités
+                    </th>
+
+                    <th>
+                        Questions
+                    </th>
+
+                    <th>
+                        0
+                    </th>
+
+                    <th>
+                        1
+                    </th>
+
+                    <th>
+                        2
+                    </th>
+
+                    <th>
+                        Validation
+                    </th>
+
+                    <th>
+                        Total compétence
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tableBody">
+
+                <!-- généré via JS -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- BOUTONS -->
+
+    <div class="btn-group">
+
+        <button onclick="calculer()">
+
+            Calculer les notes
+
+        </button>
+
+        <button
+            class="print-btn"
+            onclick="exportPDF()">
+
+            Imprimer / Exporter PDF
+
+        </button>
+
+    </div>
+
+    <!-- RESULTAT -->
+
+    <h3 id="final">
+
+    </h3>
+
+    <!-- NOTE BAS DE PAGE ECRAN -->
 
     <div id="footer-note">
+
         <strong>
-            La sous-épreuve de mathématiques et de sciences a pour objectif d'évaluer le niveau
-            de maîtrise des compétences terminales telles que définies dans le programme,
-            notamment :
+
+            La sous-épreuve de mathématiques et de sciences a pour objectif
+            d'évaluer le niveau de maîtrise des compétences terminales
+            telles que définies dans le programme.
+
         </strong>
 
         <br><br>
 
-        - s'approprier : rechercher, extraire et organiser l'information ;<br>
-        - analyser/raisonner : émettre des conjectures ; proposer, choisir,
-        une méthode de résolution ; élaborer un algorithme ;<br>
-        - réaliser : mettre en œuvre une méthode de résolution, des algorithmes ;
-        utiliser un modèle ; représenter ; calculer ; expérimenter ;
-        faire une simulation ;<br>
-        - valider : critiquer un résultat, argumenter ;
-        contrôler la vraisemblance d'une conjecture ;
-        mener un raisonnement logique et établir une conclusion ;<br>
-        - communiquer : rendre compte d'une démarche, d'un résultat,
-        à l'oral ou à l'écrit à l'aide d'outils et d'un langage approprié.
-        Expliquer une démarche.<br><br>
+        - s'approprier : rechercher, extraire et organiser l'information ;
 
-        <strong>Cotations :</strong><br>
-        2 : conforme aux attendus<br>
-        1 : partiellement conforme aux attendus<br>
-        0 : non conforme aux attendus
+        <br>
+
+        - analyser / raisonner : proposer une méthode, élaborer un algorithme ;
+
+        <br>
+
+        - réaliser : utiliser une méthode, calculer, expérimenter ;
+
+        <br>
+
+        - valider : contrôler la vraisemblance, argumenter ;
+
+        <br>
+
+        - communiquer : rendre compte d’une démarche.
+
+        <br><br>
+
+        <strong>
+
+            Cotations :
+
+        </strong>
+
+        <br>
+
+        2 : conforme aux attendus
+
+        <br>
+
+        1 : partiellement conforme
+
+        <br>
+
+        0 : non conforme
+
     </div>
+
+    <!-- ZONE CACHEE IMPRESSION -->
+
+    <div id="printArea">
+
+    </div>
+
+    <!-- SCRIPT -->
 
     <script src="script.js"></script>
 
