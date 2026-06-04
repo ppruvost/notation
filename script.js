@@ -263,3 +263,98 @@ data.forEach((bloc, ci) => {
 });
 
 updateQuestionLists();
+
+function exportPDF() {
+
+    const matiere =
+        document.querySelector(
+            'input[name="matiere"]:checked'
+        ).value;
+
+    const titre =
+        matiere === "maths"
+        ? "GRILLE NATIONALE D’ÉVALUATION ADAPTÉE<br>EN MATHÉMATIQUES"
+        : "GRILLE NATIONALE D’ÉVALUATION ADAPTÉE<br>EN PHYSIQUE-CHIMIE";
+
+    const footerMaths = `
+    <sup>1</sup> Des appels permettent de s’assurer de la compréhension
+    du problème et d’évaluer le degré de maîtrise.
+
+    <br><br>
+
+    Les questions nécessitant l’usage d’outils numériques
+    permettent d’évaluer la capacité à expérimenter,
+    simuler et contrôler la vraisemblance.
+    `;
+
+    const footerSciences = `
+    <sup>1</sup> Des appels permettent d’évaluer la maîtrise
+    des capacités expérimentales et la communication orale.
+
+    <br><br>
+
+    Les questions nécessitant l’usage d’outils numériques
+    permettent d’évaluer les capacités à expérimenter,
+    utiliser une simulation et mettre en œuvre
+    des algorithmes.
+    `;
+
+    const footer =
+        matiere === "maths"
+        ? footerMaths
+        : footerSciences;
+
+    const tableau =
+        document.querySelector("table")
+        .outerHTML;
+
+    document.getElementById(
+        "printArea"
+    ).innerHTML = `
+
+    <div class="print-header">
+
+        <div class="print-header-title">
+            ${titre}
+        </div>
+
+        <div class="print-header-row">
+
+            <div>
+                NOM et Prénom :
+            </div>
+
+            <div>
+                Diplôme préparé : BAC PRO
+            </div>
+
+        </div>
+
+        <div class="print-header-row">
+
+            <div>
+                Durée :
+                ${matiere==="maths"
+                ?"45 min"
+                :"1 heure"}
+            </div>
+
+            <div>
+                Sujet de CCF :
+            </div>
+
+        </div>
+
+    </div>
+
+    ${tableau}
+
+    <div class="print-footer">
+
+        ${footer}
+
+    </div>
+    `;
+
+    window.print();
+}
