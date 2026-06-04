@@ -321,10 +321,6 @@ function exportPDF() {
 
     /* suppression lignes grisées */
 
-    tableClone
-        .querySelectorAll(".row-disabled")
-        .forEach(row => row.remove());
-
     const tableau =
         tableClone.outerHTML;
 
