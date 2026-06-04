@@ -173,3 +173,87 @@ button {
         min-width: 650px;
     }
 }
+
+.matiere-choice{
+    margin-bottom:20px;
+    display:flex;
+    gap:20px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.btn-group{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.btn-group button{
+    width:auto;
+    min-width:220px;
+}
+
+.print-btn{
+    background:#2d57c4;
+    color:white;
+}
+
+#printArea{
+    display:none;
+}
+
+.print-header{
+    border:1px solid black;
+    margin-bottom:20px;
+}
+
+.print-header-title{
+    text-align:center;
+    color:#2d35aa;
+    font-size:32px;
+    font-weight:bold;
+    padding:15px;
+    border-bottom:1px solid black;
+}
+
+.print-header-row{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+}
+
+.print-header-row div{
+    border-right:1px solid black;
+    padding:8px;
+}
+
+.print-header-row div:last-child{
+    border-right:none;
+}
+
+.print-footer{
+    margin-top:30px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+@media print {
+
+    body *{
+        visibility:hidden;
+    }
+
+    #printArea,
+    #printArea *{
+        visibility:visible;
+    }
+
+    #printArea{
+        display:block;
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+    }
+
+}
