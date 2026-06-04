@@ -266,6 +266,8 @@ updateQuestionLists();
 
 function exportPDF() {
 
+    calculer();
+
     const matiere =
         document.querySelector(
             'input[name="matiere"]:checked'
@@ -273,30 +275,37 @@ function exportPDF() {
 
     const titre =
         matiere === "maths"
+
         ? "GRILLE NATIONALE D’ÉVALUATION ADAPTÉE<br>EN MATHÉMATIQUES"
+
         : "GRILLE NATIONALE D’ÉVALUATION ADAPTÉE<br>EN PHYSIQUE-CHIMIE";
 
     const footerMaths = `
-    <sup>1</sup> Des appels permettent de s’assurer de la compréhension
+
+    <sup>1</sup>
+    Des appels permettent de s’assurer de la compréhension
     du problème et d’évaluer le degré de maîtrise.
 
     <br><br>
 
     Les questions nécessitant l’usage d’outils numériques
-    permettent d’évaluer la capacité à expérimenter,
-    simuler et contrôler la vraisemblance.
+    permettent d’expérimenter, simuler et contrôler
+    la vraisemblance.
+
     `;
 
     const footerSciences = `
-    <sup>1</sup> Des appels permettent d’évaluer la maîtrise
-    des capacités expérimentales et la communication orale.
+
+    <sup>1</sup>
+    Des appels permettent d’évaluer la maîtrise
+    expérimentale et la communication orale.
 
     <br><br>
 
-    Les questions nécessitant l’usage d’outils numériques
-    permettent d’évaluer les capacités à expérimenter,
-    utiliser une simulation et mettre en œuvre
-    des algorithmes.
+    Les outils numériques permettent
+    d’expérimenter, utiliser une simulation
+    et mettre en œuvre des algorithmes.
+
     `;
 
     const footer =
@@ -304,9 +313,20 @@ function exportPDF() {
         ? footerMaths
         : footerSciences;
 
-    const tableau =
+    /* clone du tableau */
+
+    const tableClone =
         document.querySelector("table")
-        .outerHTML;
+        .cloneNode(true);
+
+    /* suppression lignes grisées */
+
+    tableClone
+        .querySelectorAll(".row-disabled")
+        .forEach(row => row.remove());
+
+    const tableau =
+        tableClone.outerHTML;
 
     document.getElementById(
         "printArea"
@@ -315,17 +335,23 @@ function exportPDF() {
     <div class="print-header">
 
         <div class="print-header-title">
+
             ${titre}
+
         </div>
 
         <div class="print-header-row">
 
             <div>
-                NOM et Prénom :
+
+                NOM et prénom :
+
             </div>
 
             <div>
+
                 Diplôme préparé : BAC PRO
+
             </div>
 
         </div>
@@ -333,14 +359,19 @@ function exportPDF() {
         <div class="print-header-row">
 
             <div>
+
                 Durée :
+
                 ${matiere==="maths"
-                ?"45 min"
-                :"1 heure"}
+                ? "45 min"
+                : "1 heure"}
+
             </div>
 
             <div>
+
                 Sujet de CCF :
+
             </div>
 
         </div>
@@ -353,7 +384,18 @@ function exportPDF() {
 
         ${footer}
 
+        <br><br>
+
+        <strong>
+
+            ${document.getElementById(
+                "final"
+            ).innerText}
+
+        </strong>
+
     </div>
+
     `;
 
     window.print();
