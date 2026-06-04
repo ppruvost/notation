@@ -174,6 +174,10 @@ button {
     }
 }
 
+/* =========================
+   BOUTONS / PRINT AREA
+========================= */
+
 .matiere-choice{
     margin-bottom:20px;
     display:flex;
@@ -203,6 +207,10 @@ button {
     display:none;
 }
 
+/* =========================
+   HEADER PRINT
+========================= */
+
 .print-header{
     border:1px solid black;
     margin-bottom:20px;
@@ -231,11 +239,30 @@ button {
     border-right:none;
 }
 
+/* =========================
+   TEXTE IMPORTANT IMPRESSION
+========================= */
+
+.print-notice{
+    display:none;
+    margin-top:10px;
+    padding:8px;
+    border:1px solid #000;
+}
+
+/* =========================
+   FOOTER PRINT
+========================= */
+
 .print-footer{
     margin-top:30px;
     font-size:14px;
     line-height:1.5;
 }
+
+/* =========================
+   PRINT A4
+========================= */
 
 @media print {
 
@@ -254,85 +281,63 @@ button {
     }
 
     #printArea{
-
         display:block;
-
         position:absolute;
-
         top:0;
         left:0;
-
         width:100%;
-
         font-size:9px;
-
         line-height:1.05;
     }
 
-    /* IMPORTANT :
-       masquer sans casser rowspan */
+    /* ===== TEXTE D'INFORMATION (AJOUT) ===== */
+    .print-notice{
+        display:block;
+        font-size:10pt;
+        line-height:1.2;
+        margin-bottom:10mm;
+    }
 
+    /* IMPORTANT : masquer sans casser rowspan */
     #printArea .row-disabled{
-
         visibility:hidden;
-
         height:0 !important;
-
         overflow:hidden;
-
     }
 
     #printArea .row-disabled td{
-
         border:none !important;
-
         padding:0 !important;
-
         height:0 !important;
-
         font-size:0 !important;
     }
 
     #printArea table{
-
         width:100%;
-
         table-layout:fixed;
-
         border-collapse:collapse;
-
         min-width:unset;
-
         font-size:8px;
     }
 
     #printArea th,
     #printArea td{
-
         padding:2px;
-
         font-size:8px;
     }
 
     .print-header-title{
-
         font-size:18px;
-
         padding:6px;
     }
 
     .print-footer{
-
         font-size:7.5px;
-
         line-height:1.05;
-
         margin-top:6px;
     }
 
     input[type="radio"]{
-
         transform:scale(.7);
     }
-
 }
